@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Salem trip settlement — Halloween 2026</title>
+  <style>
+    :root {
+      --ink: #1c1917;
+      --muted: #57534e;
+      --line: #e7e5e4;
+      --paper: #faf7f2;
+      --card: #fffdf9;
+      --owe: #9f1239;
+      --owe-bg: #fff1f2;
+      --refund: #0f766e;
+      --refund-bg: #f0fdfa;
+      --accent: #1e3a5f;
+      --chip: #eef2f6;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.45;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 20px 80px; }
+    h1 { font-size: 2rem; margin: 0 0 6px; letter-spacing: -0.02em; }
+    h2 { font-size: 1.25rem; margin: 40px 0 12px; color: var(--accent); }
+    h3 { font-size: 1.05rem; margin: 0; }
+    p.lede { color: var(--muted); max-width: 62ch; margin: 0 0 24px; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 20px 0 28px;
+    }
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .stat b { display: block; font-size: 1.45rem; font-variant-numeric: tabular-nums; }
+    .stat span { color: var(--muted); font-size: 0.82rem; font-family: ui-sans-serif, system-ui, sans-serif; }
+    .stat.owe b { color: var(--owe); }
+    .stat.refund b { color: var(--refund); }
+    .how {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 28px;
+    }
+    .how ol { margin: 8px 0 0; padding-left: 1.2rem; }
+    .how li { margin: 4px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-variant-numeric: tabular-nums;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: #f5f1ea;
+    }
+    td.num, th.num { text-align: right; }
+    tr:last-child td { border-bottom: 0; }
+    .owe { color: var(--owe); }
+    .refund { color: var(--refund); }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
+    .pill {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 0.85rem;
+      border: 1px solid var(--line);
+      background: var(--chip);
+      color: var(--ink);
+      padding: 6px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .pill[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .person {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 18px 18px 8px;
+      margin-bottom: 16px;
+    }
+    .person header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+    .badge {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 0.85rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .badge.owe { background: var(--owe-bg); }
+    .badge.refund { background: var(--refund-bg); }
+    .meta { color: var(--muted); font-size: 0.92rem; margin: 0 0 10px; }
+    .src {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: var(--chip);
+      padding: 2px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .note { color: var(--muted); font-size: 0.9rem; }
+    footer.fine { margin-top: 24px; color: var(--muted); font-size: 0.85rem; }
+    .settle {
+      margin-top: 56px;
+      padding-top: 8px;
+      border-top: 2px solid var(--accent);
+    }
+    .step {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 18px 8px;
+      margin: 14px 0;
+    }
+    .step h3 {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .step .stat { margin: 0 0 12px; display: inline-block; min-width: 180px; }
+    @media (max-width: 800px) {
+      .stats { grid-template-columns: 1fr 1fr; }
+      .person header { flex-direction: column; }
+    }
+    @media print {
+      .pill-row { display: none; }
+      .person { break-inside: avoid; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Salem trip settlement</h1>
+    <p class="lede">
+      Halloween weekend 2026 — what actually got spent, who consumed it, and who already paid the merchant.
+      Deposits landed in Matthew / Ventures’ personal account. CSR is 50/50 with Mingyi (her name on a swipe still means the shared card).
+      Action items to settle are at the bottom.
+    </p>
+
+    <div class="how">
+      <h3>How a line becomes “owed”</h3>
+      <ol>
+        <li>Someone <em>consumed</em> a share of a cost (food, bed, ticket, ride).</li>
+        <li>Someone <em>fronted</em> the cash (CSR 50/50, Matthew Discover, Matthew Lyft). Mingyi is not extra just because she swiped CSR.</li>
+        <li>Guests already sent deposits to Matthew. Net = consumption − deposit.</li>
+      </ol>
+    </div>
+
+    <h2>What happened — who fronted which bucket</h2>
+    <table>
+      <thead>
+        <tr><th>Bucket</th><th class="num">Amount</th><th>Who paid</th><th>How it is split among people</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Lost Museum tickets (CSR, 10 names)</td><td class="num">$246.74</td><td>CSR 50/50</td><td>~$24.67 each of 10. Kathy bought her own.</td></tr>
+        <tr><td>Bridget Bishop tickets</td><td class="num">$199.01</td><td>CSR 50/50</td><td>$28.43 × 7 named people (K+J = two).</td></tr>
+        <tr><td>Car rental</td><td class="num">$276.84</td><td>CSR 50/50</td><td>Matthew, Mingyi, Olivia, Wenjie, Michael.</td></tr>
+        <tr><td>Airbnb (3 beds, per person)</td><td class="num">$813.25</td><td>CSR 50/50</td><td>$162.65 × same five.</td></tr>
+        <tr><td>Shell gas</td><td class="num">$34.32</td><td>CSR 50/50</td><td>Same five car-sharers.</td></tr>
+        <tr><td>Zark $5×3 + Salem parking $15.15</td><td class="num">$30.15</td><td>CSR 50/50</td><td>Same five. Sheet’s $50 Friday parking was not on CSR.</td></tr>
+        <tr><td>Tatte bakery (Fri breakfast sheet)</td><td class="num">$16.86</td><td>CSR 50/50</td><td>Mingyi latte $7.49, Olivia oatmeal $9.37.</td></tr>
+        <tr><td>Adriatic (Fri dinner)</td><td class="num">$354.06</td><td>CSR 50/50</td><td>Spreadsheet itemization.</td></tr>
+        <tr><td>Legal Sea Foods (Sat lunch)</td><td class="num">$474.99</td><td>CSR 50/50</td><td>Spreadsheet itemization, including Kathy $49.53.</td></tr>
+        <tr><td>Mio EM (Sat / Halloween dinner)</td><td class="num">$400.05</td><td>CSR 50/50</td><td>Spreadsheet itemization. Not Discover Sumiao Xiang.</td></tr>
+        <tr><td>Daily Harvest breakfast</td><td class="num">$62.64</td><td>CSR 50/50</td><td>By chat order + tax on pretax share.</td></tr>
+        <tr><td>McDonald’s</td><td class="num">$18.47</td><td>CSR 50/50</td><td>Even: Michael, Mingyi, Wenjie, Olivia.</td></tr>
+        <tr><td>Slapfish (Oct 29)</td><td class="num">$43.61</td><td>CSR 50/50</td><td>Even: Matthew and Michael.</td></tr>
+        <tr><td>CSR Ubers $29.96 / $22.92 / $33.15</td><td class="num">$86.03</td><td>CSR 50/50</td><td>Sheet riders (Joe run). Lyndon $5.99 written off to hosts.</td></tr>
+        <tr><td>Uber $21.80 Acorn</td><td class="num">$21.80</td><td>CSR 50/50</td><td>Half Matthew / Michael.</td></tr>
+        <tr><td>Uber $30.93 (Oct 29)</td><td class="num">$30.93</td><td>CSR 50/50</td><td>Pooled with Oct 29 Lyfts; half Matthew / Michael.</td></tr>
+        <tr><td>Uber $17.20 (Oct 31)</td><td class="num">$17.20</td><td>CSR 50/50</td><td>With Lyft $20.91, four-way: Matthew, Michael, Ryan, Josie.</td></tr>
+        <tr><td>Uber $20.52 (Oct 30)</td><td class="num">$20.52</td><td>CSR 50/50</td><td>Even: Michael, Josie, Ryan.</td></tr>
+        <tr><td>Uber Eats (Oct 30)</td><td class="num">$21.82</td><td>CSR 50/50</td><td>Still on Matthew and Mingyi ($10.91 each) until assigned.</td></tr>
+        <tr><td>Ramada $169.43 + $25.00</td><td class="num">$194.43</td><td>Matthew Discover</td><td>Even: Matthew, Michael, Mingyi ($64.81).</td></tr>
+        <tr><td>Oct 29 stage show</td><td class="num">$55.00</td><td>Matthew Amazon Visa</td><td>Even: Matthew, Michael.</td></tr>
+        <tr><td>Lyfts $20.91 + $23.32 + $11.15 + $18.99 + $32.26</td><td class="num">$106.63</td><td>Matthew personal</td><td>Oct 31 four-way; Oct 30 half Mingyi; Oct 29 half Michael (with CSR Uber $30.93).</td></tr>
+        <tr><td>Chef Yao, Anchor, Fiesta, Wax, shopping, Discover Sumiao Xiang $89.53</td><td class="num">—</td><td>Out of trip</td><td>Not billed to anyone here.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Per person — every piece</h2>
+    <p class="note">Filter, or print this whole section. “Share” is what they consumed. Deposits only reduce the guest net to Matthew.</p>
+    <div class="pill-row" id="filters"></div>
+    <div id="people"></div>
+
+    <h2>Daily Harvest (CSR $62.64)</h2>
+    <p class="note">Phone order #33, 10/31/2026, customer Ventures. Subtotal $58.53 + meals tax $4.11. Tax allocated by pretax share. Joe did not order.</p>
+    <table>
+      <thead><tr><th>Who</th><th>Matched from the chat</th><th class="num">Pretax</th><th class="num">Tax</th><th class="num">Total</th></tr></thead>
+      <tbody>
+        <tr><td>Matthew</td><td>Hummus garden wrap + caramel macchiato (oat / small)</td><td class="num">$16.07</td><td class="num">$1.13</td><td class="num">$17.20</td></tr>
+        <tr><td>Mingyi</td><td>Tex mex no cheese + large pistachio chai</td><td class="num">$14.93</td><td class="num">$1.05</td><td class="num">$15.98</td></tr>
+        <tr><td>Michael</td><td>Everything bagel + cream cheese</td><td class="num">$3.98</td><td class="num">$0.28</td><td class="num">$4.26</td></tr>
+        <tr><td>Wenjie</td><td>Harvest sandwich, ham, plain bagel + small oat chai</td><td class="num">$11.77</td><td class="num">$0.82</td><td class="num">$12.59</td></tr>
+        <tr><td>Olivia</td><td>Harvest sandwich, ham, white English + medium chai</td><td class="num">$11.78</td><td class="num">$0.83</td><td class="num">$12.61</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Still sitting on hosts</h2>
+    <p class="note">Uber Eats $21.82 posted Oct 30, 2026. Split 50/50 on Matthew and Mingyi ($10.91 each) until you say who ordered. Guest nets do not change if this stays on hosts.</p>
+
+    <section class="settle">
+      <h2>Settle it — action items</h2>
+      <p class="note">Do these in order. Guests pay / get refunded through Matthew first. Mingyi is the last step so you do not short the shared CSR.</p>
+
+      <div class="step">
+        <h3>Step 1 — These people pay you</h3>
+        <div class="stat owe"><b>$527.01</b><span>Total incoming</span></div>
+        <table>
+          <thead>
+            <tr><th>Party</th><th class="num">Deposit already in</th><th class="num">Their share</th><th class="num">They send you</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Michael</td><td class="num">$400.00</td><td class="num">$565.37</td><td class="num owe">$165.37</td></tr>
+            <tr><td>Olivia</td><td class="num">$400.00</td><td class="num">$456.45</td><td class="num owe">$56.45</td></tr>
+            <tr><td>Wenjie</td><td class="num">$400.00</td><td class="num">$457.26</td><td class="num owe">$57.26</td></tr>
+            <tr><td>Ryan + Mira</td><td class="num">$140.00</td><td class="num">$332.41</td><td class="num owe">$192.41</td></tr>
+            <tr><td>Kathy</td><td class="num">$0.00</td><td class="num">$55.52</td><td class="num owe">$55.52</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step">
+        <h3>Step 2 — You refund these people</h3>
+        <div class="stat refund"><b>$259.39</b><span>Total outgoing refunds</span></div>
+        <table>
+          <thead>
+            <tr><th>Party</th><th class="num">Deposit already in</th><th class="num">Their share</th><th class="num">You send them</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Joe</td><td class="num">$225.00</td><td class="num">$118.21</td><td class="num refund">$106.79</td></tr>
+            <tr><td>Karthik + Josie</td><td class="num">$450.00</td><td class="num">$297.40</td><td class="num refund">$152.60</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step">
+        <h3>Step 3 — Do not forget: you pay Mingyi</h3>
+        <div class="stat"><b>$1,421.66</b><span>Matthew → Mingyi</span></div>
+        <p class="note">
+          After steps 1 and 2, guests have net-paid the hosts $267.62. Mingyi already funded half of CSR
+          (and sent you a $400 deposit). This last transfer settles the two of you. Skip it and she is short.
+        </p>
+      </div>
+    </section>
+
+    <footer class="fine">
+      Trip costs $3,525.35 = sum of personal shares. CSR in this model $3,169.29
+      (weekend activity plus museum, Bridget Bishop, car, Airbnb). Matthew fronted Discover Ramada, Amazon Visa stage, and Lyfts.
+      Fiesta, Wax, Anchor, Chef Yao, shopping, and Discover Sumiao Xiang are out.
+    </footer>
+  </div>
+
+  <script>
+    const people = [
+      {
+        id: "michael",
+        name: "Michael",
+        deposit: 400,
+        share: 565.37,
+        net: 165.37,
+        action: "Pays Matthew $165.37",
+        kind: "owe",
+        lines: [
+          ["Airbnb (per person of five)", "162.65", "CSR 50/50", "Five Airbnb people"],
+          ["Ramada Oct 31 $194.43", "64.81", "Matthew Discover", "Matthew, Michael, Mingyi"],
+          ["Car rental $276.84", "55.36", "CSR 50/50", "Five car-sharers"],
+          ["Oct 29 Uber $30.93 + Lyfts $11.15+$18.99+$32.26", "46.67", "CSR + Matthew Lyft", "Half with Matthew"],
+          ["Sat dinner Mio EM $400.05", "34.29", "CSR 50/50", "Spreadsheet items"],
+          ["Fri dinner Adriatic $354.06", "28.56", "CSR 50/50", "Spreadsheet items"],
+          ["Bridget Bishop ticket", "28.43", "CSR 50/50", "7 named people"],
+          ["Oct 29 stage show $55", "27.50", "Matthew Amazon Visa", "Half with Matthew"],
+          ["Lost Museum ticket", "24.67", "CSR 50/50", "10 tickets on Matthew’s PDFs"],
+          ["Slapfish $43.61", "21.80", "CSR 50/50", "Even with Matthew"],
+          ["Sat lunch Legal Sea Foods $474.99", "21.59", "CSR 50/50", "Spreadsheet items"],
+          ["Uber $21.80 Acorn", "10.90", "CSR 50/50", "Half with Matthew"],
+          ["Oct 31 Uber $17.20 + Lyft $20.91", "9.53", "CSR + Matthew Lyft", "Four-way with Ryan, Josie, Matthew"],
+          ["Shell gas $34.32", "6.86", "CSR 50/50", "Five car-sharers"],
+          ["Uber $20.52 Oct 30", "6.84", "CSR 50/50", "Even with Josie and Ryan"],
+          ["Parking Zark+Salem $30.15", "6.03", "CSR 50/50", "Five car-sharers"],
+          ["McDonald’s $18.47", "4.62", "CSR 50/50", "Even with Mingyi, Wenjie, Olivia"],
+          ["Daily Harvest breakfast", "4.26", "CSR 50/50", "Bagel + cream cheese + tax"],
+        ],
+      },
+      {
+        id: "olivia",
+        name: "Olivia",
+        deposit: 400,
+        share: 456.45,
+        net: 56.45,
+        action: "Pays Matthew $56.45",
+        kind: "owe",
+        lines: [
+          ["Airbnb", "162.65", "CSR 50/50", "Five Airbnb people"],
+          ["Fri dinner Adriatic", "60.06", "CSR 50/50", "Spreadsheet items"],
+          ["Car rental", "55.37", "CSR 50/50", "Five car-sharers"],
+          ["Sat lunch Legal Sea Foods", "44.45", "CSR 50/50", "Spreadsheet items"],
+          ["Bridget Bishop ticket", "28.43", "CSR 50/50", "7 named people"],
+          ["Lost Museum ticket", "24.67", "CSR 50/50", "LostMuseumTix v2.pdf"],
+          ["Sat dinner Mio EM", "24.13", "CSR 50/50", "Spreadsheet items"],
+          ["Daily Harvest breakfast", "12.61", "CSR 50/50", "Sandwich + medium chai + tax"],
+          ["Tatte oatmeal + tax", "9.37", "CSR 50/50", "Fri breakfast sheet"],
+          ["Shell gas", "6.87", "CSR 50/50", "Five car-sharers"],
+          ["Uber dinner to Salem $33.15", "6.63", "CSR 50/50", "Sheet riders"],
+          ["Parking", "6.03", "CSR 50/50", "Five car-sharers"],
+          ["Uber Salem to Joe $29.96", "5.99", "CSR 50/50", "With Mingyi, Wenjie, Kathy; Lyndon written off"],
+          ["McDonald’s $18.47", "4.61", "CSR 50/50", "Four-way"],
+          ["Uber Joe to dinner $22.92", "4.58", "CSR 50/50", "Sheet riders"],
+        ],
+      },
+      {
+        id: "wenjie",
+        name: "Wenjie",
+        deposit: 400,
+        share: 457.26,
+        net: 57.26,
+        action: "Pays Matthew $57.26",
+        kind: "owe",
+        lines: [
+          ["Airbnb", "162.65", "CSR 50/50", "Five Airbnb people"],
+          ["Fri dinner Adriatic", "56.28", "CSR 50/50", "Spreadsheet items"],
+          ["Car rental", "55.37", "CSR 50/50", "Five car-sharers"],
+          ["Sat lunch Legal Sea Foods", "45.72", "CSR 50/50", "Spreadsheet items"],
+          ["Sat dinner Mio EM", "36.83", "CSR 50/50", "Spreadsheet items"],
+          ["Bridget Bishop ticket", "28.43", "CSR 50/50", "7 named people"],
+          ["Lost Museum ticket", "24.68", "CSR 50/50", "LostMuseumTix.pdf"],
+          ["Daily Harvest breakfast", "12.59", "CSR 50/50", "Sandwich + small oat chai + tax"],
+          ["Shell gas", "6.86", "CSR 50/50", "Five car-sharers"],
+          ["Uber dinner to Salem $33.15", "6.63", "CSR 50/50", "Sheet riders"],
+          ["Parking", "6.03", "CSR 50/50", "Five car-sharers"],
+          ["Uber Salem to Joe $29.96", "5.99", "CSR 50/50", "Sheet riders"],
+          ["McDonald’s $18.47", "4.62", "CSR 50/50", "Four-way"],
+          ["Uber Joe to dinner $22.92", "4.58", "CSR 50/50", "Sheet riders"],
+        ],
+      },
+      {
+        id: "ryan",
+        name: "Ryan + Mira",
+        deposit: 140,
+        share: 332.41,
+        net: 192.41,
+        action: "Pays Matthew $192.41",
+        kind: "owe",
+        lines: [
+          ["Sat dinner Mio EM", "149.86", "CSR 50/50", "Spreadsheet items (largest dinner share)"],
+          ["Sat lunch Legal Sea Foods", "116.84", "CSR 50/50", "Spreadsheet items"],
+          ["Lost Museum tickets ×2", "49.34", "CSR 50/50", "Lost Musuem v4.pdf with Michael"],
+          ["Oct 31 Uber $17.20 + Lyft $20.91 (Ryan)", "9.53", "CSR + Matthew Lyft", "Four-way"],
+          ["Uber $20.52 Oct 30 (Ryan)", "6.84", "CSR 50/50", "With Michael and Josie"],
+        ],
+      },
+      {
+        id: "kathy",
+        name: "Kathy",
+        deposit: 0,
+        share: 55.52,
+        net: 55.52,
+        action: "Pays Matthew $55.52",
+        kind: "owe",
+        lines: [
+          ["Sat lunch Legal Sea Foods", "49.53", "CSR 50/50", "Bisque cup + fish and chips + tax/tip"],
+          ["Uber Salem to Joe $29.96", "5.99", "CSR 50/50", "Sheet riders"],
+        ],
+      },
+      {
+        id: "joe",
+        name: "Joe",
+        deposit: 225,
+        share: 118.21,
+        net: -106.79,
+        action: "Matthew refunds $106.79",
+        kind: "refund",
+        lines: [
+          ["Fri dinner Adriatic", "65.10", "CSR 50/50", "Spreadsheet items"],
+          ["Bridget Bishop ticket", "28.43", "CSR 50/50", "Named on the 7 tickets"],
+          ["Lost Museum ticket", "24.68", "CSR 50/50", "TixV3.pdf with Ventures + Mingyi"],
+        ],
+      },
+      {
+        id: "kj",
+        name: "Karthik + Josie",
+        deposit: 450,
+        share: 297.40,
+        net: -152.60,
+        action: "Matthew refunds $152.60",
+        kind: "refund",
+        lines: [
+          ["Sat lunch Legal Sea Foods", "92.71", "CSR 50/50", "Spreadsheet items"],
+          ["Sat dinner Mio EM", "59.69", "CSR 50/50", "Spreadsheet items"],
+          ["Bridget Bishop tickets ×2", "56.86", "CSR 50/50", "Both named"],
+          ["Lost Museum tickets ×2", "49.34", "CSR 50/50", "LostMuseumTix.pdf with Wenjie"],
+          ["Uber dinner to Salem $33.15 (both)", "13.26", "CSR 50/50", "Sheet riders"],
+          ["Oct 31 Uber $17.20 + Lyft $20.91 (Josie)", "9.52", "CSR + Matthew Lyft", "Four-way"],
+          ["Uber Joe to dinner $22.92 (both)", "9.18", "CSR 50/50", "Sheet riders"],
+          ["Uber $20.52 Oct 30 (Josie)", "6.84", "CSR 50/50", "With Michael and Ryan"],
+        ],
+      },
+      {
+        id: "matthew",
+        name: "Matthew / Ventures",
+        deposit: 0,
+        share: 679.74,
+        net: null,
+        action: "After guest nets, pays Mingyi $1,421.66",
+        kind: "host",
+        lines: [
+          ["Airbnb", "162.65", "CSR 50/50", "Own consumption"],
+          ["Fri dinner Adriatic", "72.03", "CSR 50/50", "M+M half of $144.06 food share"],
+          ["Ramada", "64.81", "Matthew Discover (fronted all $194.43)", "1/3"],
+          ["Car rental", "55.37", "CSR 50/50", "Own consumption"],
+          ["Sat lunch Legal", "52.08", "CSR 50/50", "Own consumption"],
+          ["Sat dinner Mio", "47.62", "CSR 50/50", "Own consumption"],
+          ["Oct 29 Uber $30.93 + Lyfts", "46.66", "CSR + own Lyft app", "Half with Michael"],
+          ["Bridget Bishop", "28.43", "CSR 50/50", "Own ticket"],
+          ["Stage show", "27.50", "Fronted $55 Amazon Visa", "Half with Michael"],
+          ["Lost Museum", "24.68", "CSR 50/50", "Own ticket"],
+          ["Uber Eats $21.82 (Oct 30, unassigned)", "10.91", "CSR 50/50", "Host bucket until assigned"],
+          ["Slapfish", "21.81", "CSR 50/50", "Even with Michael"],
+          ["Daily Harvest", "17.20", "CSR 50/50", "Wrap + macchiato"],
+          ["Oct 30 Lyft $23.32", "11.66", "Own Lyft app", "Half with Mingyi"],
+          ["Uber $21.80 Acorn", "10.90", "CSR 50/50", "Half with Michael"],
+          ["Oct 31 Uber+Lyft", "9.53", "CSR + own Lyft", "Four-way"],
+          ["Shell gas", "6.87", "CSR 50/50", "Five car-sharers"],
+          ["Parking", "6.03", "CSR 50/50", "Five car-sharers"],
+          ["Lyndon write-off", "3.00", "CSR already paid", "Hosts ate Lyndon’s Joe-Uber share"],
+        ],
+      },
+      {
+        id: "mingyi",
+        name: "Mingyi",
+        deposit: 400,
+        share: 562.99,
+        net: null,
+        action: "Receives $1,421.66 from Matthew (CSR overfunding + $400 deposit already with him)",
+        kind: "host",
+        lines: [
+          ["Airbnb", "162.65", "CSR 50/50", "Own consumption"],
+          ["Fri dinner Adriatic", "72.03", "CSR 50/50", "Own consumption"],
+          ["Ramada (Matthew fronted Discover)", "64.81", "Matthew Discover", "1/3 — she owes this into the host transfer"],
+          ["Car rental", "55.37", "CSR 50/50", "Own consumption"],
+          ["Sat lunch Legal", "52.07", "CSR 50/50", "Own consumption"],
+          ["Sat dinner Mio", "47.63", "CSR 50/50", "Own consumption"],
+          ["Lost Museum", "24.68", "CSR 50/50", "TixV3.pdf"],
+          ["Uber Eats $21.82 (Oct 30, unassigned)", "10.91", "CSR 50/50", "Host bucket until assigned"],
+          ["Daily Harvest", "15.98", "CSR 50/50", "Tex mex + large chai"],
+          ["Oct 30 Lyft $23.32", "11.66", "Matthew Lyft app", "Half"],
+          ["Tatte latte + tax", "7.49", "CSR 50/50", "Fri breakfast sheet"],
+          ["Shell gas", "6.86", "CSR 50/50", "Five car-sharers"],
+          ["Uber dinner to Salem $33.15", "6.63", "CSR 50/50", "Sheet riders"],
+          ["Parking", "6.03", "CSR 50/50", "Five car-sharers"],
+          ["Uber Salem to Joe $29.96", "5.99", "CSR 50/50", "Sheet riders"],
+          ["McDonald’s $18.47", "4.62", "CSR 50/50", "Four-way"],
+          ["Uber Joe to dinner $22.92", "4.58", "CSR 50/50", "Sheet riders"],
+          ["Lyndon write-off", "3.00", "CSR already paid", "Hosts ate Lyndon’s share"],
+        ],
+      },
+    ];
+
+    const money = (n) =>
+      (n < 0 ? "-" : "") +
+      "$" +
+      Math.abs(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    const filters = document.getElementById("filters");
+    const root = document.getElementById("people");
+    let active = "all";
+
+    function renderPills() {
+      filters.innerHTML = "";
+      const all = document.createElement("button");
+      all.className = "pill";
+      all.textContent = "Everyone";
+      all.setAttribute("aria-pressed", active === "all");
+      all.onclick = () => {
+        active = "all";
+        draw();
+      };
+      filters.appendChild(all);
+      people.forEach((p) => {
+        const b = document.createElement("button");
+        b.className = "pill";
+        b.textContent = p.name;
+        b.setAttribute("aria-pressed", active === p.id);
+        b.onclick = () => {
+          active = p.id;
+          draw();
+        };
+        filters.appendChild(b);
+      });
+    }
+
+    function draw() {
+      renderPills();
+      root.innerHTML = "";
+      people
+        .filter((p) => active === "all" || p.id === active)
+        .forEach((p) => {
+          const el = document.createElement("article");
+          el.className = "person";
+          el.id = p.id;
+          const badgeClass = p.kind === "refund" ? "refund" : p.kind === "owe" ? "owe" : "";
+          const rows = p.lines
+            .map(
+              ([item, amt, paid, split]) =>
+                `<tr><td>${item}</td><td><span class="src">${paid}</span></td><td>${split}</td><td class="num">$${amt}</td></tr>`
+            )
+            .join("");
+          el.innerHTML = `
+            <header>
+              <h3>${p.name}</h3>
+              <span class="badge ${badgeClass}">${p.action}</span>
+            </header>
+            <p class="meta">Consumed ${money(p.share)}${
+              p.deposit ? ` · already sent ${money(p.deposit)} deposit` : ""
+            }</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>What they consumed</th>
+                  <th>Who already paid the merchant</th>
+                  <th>Split logic</th>
+                  <th class="num">Their share</th>
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          `;
+          root.appendChild(el);
+        });
+    }
+
+    draw();
+  </script>
+</body>
+</html>
