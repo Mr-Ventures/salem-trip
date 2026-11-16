@@ -125,6 +125,14 @@
       white-space: nowrap;
     }
     .note { color: var(--muted); font-size: 0.9rem; }
+    .was {
+      display: block;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--muted);
+      margin-top: 2px;
+    }
     footer.fine { margin-top: 24px; color: var(--muted); font-size: 0.85rem; }
     .settle {
       margin-top: 56px;
@@ -275,6 +283,7 @@
     </section>
 
     <footer class="fine">
+      Baseline saved Nov 15, 2026. Later fixes on a line show * previously $X — only where something actually changed.
       Trip costs $3,525.35 = sum of personal shares. CSR in this model $3,169.29
       (weekend activity plus museum, Bridget Bishop, car, Airbnb). Matthew fronted Discover Ramada, Amazon Visa stage, and Lyfts.
       Fiesta, Wax, Anchor, Chef Yao, shopping, and Discover Sumiao Xiang are out.
@@ -282,6 +291,19 @@
   </div>
 
   <script>
+    /* Baseline snapshot: Nov 15, 2026.
+       When you fix a line, change index 1 (amount) and set index 4 to the old amount.
+       Same for person.shareWas / person.netWas / person.actionWas.
+       Asterisks render only when those previous fields exist and differ. */
+    const BASELINE_DATE = "2026-11-15";
+
+    function starred(now, was) {
+      const nowStr = typeof now === "number" ? money(now) : "$" + now;
+      if (was == null || String(was) === String(now)) return nowStr;
+      const wasStr = typeof was === "number" ? money(was) : "$" + was;
+      return nowStr + `<span class="was">* previously ${wasStr}</span>`;
+    }
+
     const people = [
       {
         id: "michael",
@@ -531,16 +553,17 @@
           const badgeClass = p.kind === "refund" ? "refund" : p.kind === "owe" ? "owe" : "";
           const rows = p.lines
             .map(
-              ([item, amt, paid, split]) =>
-                `<tr><td>${item}</td><td><span class="src">${paid}</span></td><td>${split}</td><td class="num">$${amt}</td></tr>`
+              ([item, amt, paid, split, was]) =>
+                `<tr><td>${item}</td><td><span class="src">${paid}</span></td><td>${split}</td><td class="num">${starred(amt, was)}</td></tr>`
             )
             .join("");
+          const shareLabel = starred(p.share, p.shareWas);
           el.innerHTML = `
             <header>
               <h3>${p.name}</h3>
-              <span class="badge ${badgeClass}">${p.action}</span>
+              <span class="badge ${badgeClass}">${p.actionWas && p.actionWas !== p.action ? p.action + `<span class="was">* previously ${p.actionWas}</span>` : p.action}</span>
             </header>
-            <p class="meta">Consumed ${money(p.share)}${
+            <p class="meta">Consumed ${shareLabel}${
               p.deposit ? ` · already sent ${money(p.deposit)} deposit` : ""
             }</p>
             <table>
